@@ -9,7 +9,7 @@ class Expense(Base):
     id = Column(Integer, primary_key=True, index=True)
 
     user_id =  Column(Integer, ForeignKey("users.id"), nullable=False)
-    category_id = Column(Integer, nullable=True)
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
 
     amount = Column(Numeric(10,2), nullable=False)
     type = Column(String, nullable=False) #income/expense
