@@ -16,3 +16,9 @@ def get_categories(db: Session, user_id: int):
     return db.query(Category).filter(
         Category.is_deleted == False, 
         (Category.user_id == None) | (Category.user_id == user_id)).all()
+
+def get_category_by_id(db: Session, category_id: int):
+    return db.query(Category).filter(
+        Category.is_deleted == False,
+        Category.id == category_id
+    )

@@ -25,7 +25,8 @@ def get_expenses(
     type: Optional[str]= None,
     start_date: Optional[datetime]=None,
     end_date: Optional[datetime]=None,
+    category_id: Optional[int]= None,
     db: Session = Depends(get_db),
     current_user = Depends(get_current_user),
 ):
-    return list_user_expense(db, current_user.id, limit, offset, type, start_date, end_date)
+    return list_user_expense(db, current_user.id, limit, offset, type, category_id, start_date, end_date)
