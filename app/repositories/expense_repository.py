@@ -76,12 +76,43 @@ def get_category_summary(db, user_id):
         Category, Expense.category_id == Category.id
     ).filter(
         Expense.user_id == user_id,
-        Expense.is_deleted == False
+        Expense.is_deleted == False,
+        Expense.type == "expense"
     ).group_by(
         func.coalesce(Category.name, "Uncategorized")
     ).all()
 
     return result
 
+def get_monthly_summary(db: Session, user_id, from_date = None, to_date = None):
+    # SELECT 
+    #     DATE_TRUNC('month', expense.transaction_date) AS month,
+    #     SUM(expense.amount) AS total
+    # FROM expense
+    # WHERE expense.user_id = :user_id 
+    # AND expense.is_deleted = false
+    # GROUP BY DATE_TRUNC('month', expense.transaction_date)
+    # ORDER BY DATE_TRUNC('month', expense.transaction_date) ASC;
+    results = db.query(
+        func.date_trunc('month', Expense.transaction_date).label('month'),
+        func.sum(Expense.amount).label('total')
+    ).filter(
+        Expense.user_id == user_id,
+        Expense.is_deleted == False,
+        Expense.type == "expense"
+    )
+    
+    if(from_date):
+        results.filter(Expense.transaction_date>=from_date)
 
+    if(to_date):
+        results.filter(Expense.transaction_date<=to_date)
+
+    results = results.group_by(
+        func.date_trunc('month', Expense.transaction_date)
+    ).order_by(
+        func.date_trunc('month', Expense.transaction_date)
+    ).all()
+
+    return results
 
