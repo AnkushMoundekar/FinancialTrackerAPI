@@ -21,4 +21,4 @@ def get_category_by_id(db: Session, category_id: int):
     return db.query(Category).filter(
         Category.is_deleted == False,
         Category.id == category_id
-    )
+    ).first()

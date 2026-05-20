@@ -6,7 +6,7 @@ class ExpenseCreate(BaseModel):
     type: str
     description: str | None = None
     transaction_date: datetime
-    category_id: int | None
+    category_id: int | None = None
 
 class ExpenseResponse(BaseModel):
     id: int

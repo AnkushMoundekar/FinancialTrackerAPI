@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 
-from app.api.routes import user, auth, test, expense, category
+from app.api.routes import user, auth, test, expense, category, analytics
 from app.dependencies.auth import get_current_user
 
 app = FastAPI(title = "FinTrack API")
@@ -10,6 +10,7 @@ app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(test.router, prefix="/test", tags=["Tests"])
 app.include_router(expense.router, prefix="/expense", tags=["Expenses"])
 app.include_router(category.router, prefix="/categories", tags=["Categories"])
+app.include_router(analytics.router, prefix="/analytics", tags=["Analytics"])
 
 
 # test routes

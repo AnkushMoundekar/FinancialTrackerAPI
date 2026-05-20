@@ -15,6 +15,11 @@ def create_refresh_token(db: Session, user_id: int, hashed_token: str, expires_a
     return token
 
 def get_refresh_token(db:Session, hashed_token: str):
+    # SELECT * 
+    # FROM refresh_token 
+    # WHERE refresh_token.hashed_token = hashed_token 
+    # AND refresh_token.is_revoked = false 
+    # LIMIT 1;
     return db.query(RefreshToken).filter(
         RefreshToken.hashed_token == hashed_token,
         RefreshToken.is_revoked == False
