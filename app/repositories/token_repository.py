@@ -3,6 +3,12 @@ from sqlalchemy.orm import Session
 from app.models.refresh_token import RefreshToken
 
 def create_refresh_token(db: Session, user_id: int, hashed_token: str, expires_at):
+    tokens = db.query(RefreshToken).filter(
+        RefreshToken.user_id == user_id
+    ).order_by(RefreshToken.created_at.desc()).all()
+
+    if len(tokens) >= 5:
+        db.delete(tokens[-1])  # delete oldest
     token = RefreshToken(
         user_id=user_id,
         hashed_token=hashed_token,
