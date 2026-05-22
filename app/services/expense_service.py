@@ -58,7 +58,8 @@ def get_monthly_summary_service(db, user_id, from_date = None, to_date = None):
     data_map = {
         row.month.date(): float(row.total or 0)
     for row in result}
-
+    if not data_map:
+        return []
     start_date = from_date.date() if from_date else min(data_map.keys())
     end_date = to_date.date() if to_date else max(data_map.keys())
 
