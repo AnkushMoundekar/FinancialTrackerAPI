@@ -1,4 +1,9 @@
-const BASE_URL = "http://127.0.0.1:8000";
+const BASE_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8000"
+    : "https://your-backend.onrender.com";
+
+console.log(BASE_URL)
 
 export async function apiRequest(endpoint, method = "GET", body = null) {
 
